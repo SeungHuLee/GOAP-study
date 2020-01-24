@@ -10,41 +10,45 @@ GOAP
 
 ==========================NavMesh Crash Course=================================
 - Agents 항목
- # Agent Types : Agent의 종류 지정
- # Step Height : 이동 가능한 계단
- # Max Slope : 이동 가능한 경사면
+  # Agent Types : Agent의 종류 지정
+  # Step Height : 이동 가능한 계단
+  # Max Slope : 이동 가능한 경사면
 
 - Areas 항목
- : Can define different costs for different parts of the Navigation Mesh.
- # Cost is used by the A* Algorithm to calculate the best path across the mesh
-   from one location.
- # Built-in-types are Walkable, Not Walkable, Jump
+  : Can define different costs for different parts of the Navigation Mesh.
+  # Cost is used by the A* Algorithm to calculate the best path across the mesh
+    from one location.
+  # Built-in-types are Walkable, Not Walkable, Jump
 
 - Bake 항목
- : Mesh를 Navigation Mesh로 바꾸는 부분을 전담한다.
- # 기본 Bake는 Built-in-Agent인 Humanoid 한 type의 매개변수들을 기준으로 진행된다.
- # 만약 여러 type에 대한 Bake가 필요하다면, 참조 : https://github.com/Unity-Technologies/NavMeshComponents
- # Off Mesh Link : Define how far across a gap in the mesh an agent can fall or jump.
+  : Mesh를 Navigation Mesh로 바꾸는 부분을 전담한다.
+  # 기본 Bake는 Built-in-Agent인 Humanoid 한 type의 매개변수들을 기준으로 진행된다.
+  # 만약 여러 type에 대한 Bake가 필요하다면, 참조 : https://github.com/Unity-Technologies/NavMeshComponents
 
-    - Bake/Advanced 항목
-     : Navigation Mesh의 디테일한 부분을 설정하는 곳
-      # Manual Voxel Size 
-       : NavMesh가 생성되기 전, World를 Voxel Box들의 Data Structure로 분할해 저장한다.
-         Voxel Size가 클 수록, 큰 단위로 분할 저장하므로, 정확도(디테일함)가 떨어진다.
-         # default 값은 3 per agent radius이다.
-      # Minimum Region Area 
-       : Range(2f,4f)이다. 너무 작은 공간에 대해선 Navigating을 하지 않는다.
+  # Off Mesh Link 
+      : Define how far across a gap in the mesh an agent can fall or jump.
+        # Drop Height : 대상 Mesh간 높이가 다를 때 고려할 부분
+        # Jump Distance : 대상 Mesh간 높이가 같고, 
+
+     - Bake/Advanced 항목
+      : Navigation Mesh의 디테일한 부분을 설정하는 곳
+       # Manual Voxel Size 
+        : NavMesh가 생성되기 전, World를 Voxel Box들의 Data Structure로 분할해 저장한다.
+          Voxel Size가 클 수록, 큰 단위로 분할 저장하므로, 정확도(디테일함)가 떨어진다.
+          # default 값은 3 per agent radius이다.
+       # Minimum Region Area 
+        : Range(2f,4f)이다. 너무 작은 공간에 대해선 Navigating을 하지 않는다.
          
-      # Height Mesh 
-       : 일반적으로 Bake시 height를 평균낸다. 예를 들어, 계단을 경사면처럼 변경한다.
-         그런데 height mesh 토글을 활성화하면, 평균 과정을 생략하고, 그대로 유지한다.
-         하지만, 메모리 사용량이 증가하는 등 자원을 더 소모하므로 권장되지는 않는다.
+       # Height Mesh 
+        : 일반적으로 Bake시 height를 평균낸다. 예를 들어, 계단을 경사면처럼 변경한다.
+          그런데 height mesh 토글을 활성화하면, 평균 과정을 생략하고, 그대로 유지한다.
+          하지만, 메모리 사용량이 증가하는 등 자원을 더 소모하므로 권장되지는 않는다.
 
 - Object 항목
- : Align specific area types to different parts of mesh.
-  # Navigation Static
-  # Generate OffMeshLinks
-  # Navigation Area
+  : Align specific area types to different parts of mesh.
+   # Navigation Static
+   # Generate OffMeshLinks
+   # Navigation Area
 
 
 
