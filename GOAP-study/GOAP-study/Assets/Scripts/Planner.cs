@@ -119,9 +119,68 @@ namespace GOAP
             return actionQueue;
         }
 
-        private bool BuildGraph(Node initialNode, List<Node> leaves, List<Action> usableActions, Dictionary<string, int> goal)
+        private bool BuildGraph(Node parent, List<Node> leaves, List<Action> usableActions, Dictionary<string, int> goals)
         {
-            throw new NotImplementedException();
+            bool hasFoundPath = false;
+
+            foreach (GOAP.Action action in usableActions)
+            {
+                if (action.IsAchievableGiven(parent.state))
+                {
+                    var currentState = new Dictionary<string, int>(parent.state);
+
+                    foreach (var effect in action.afterEffectDict)
+                    {
+                        if (!currentState.ContainsKey(effect.Key))
+                        {
+                            currentState.Add(effect.Key, effect.Value);
+                        }
+                    }
+
+                    Node node = new Node(parent, parent.cost + action.cost, currentState, action);
+
+                    if (GoalAchieved(goals, currentState))
+                    {
+                        leaves.Add(node);
+                        hasFoundPath = true;
+                    }
+                    else
+                    {
+                        List<GOAP.Action> actionSubset = BuildUsableActionSubset(usableActions, action);
+
+                        // Recursive call
+                        bool isPathFound = BuildGraph(node, leaves, actionSubset, goals);
+
+                        if (isPathFound)
+                        {
+                            hasFoundPath = true;
+                        }
+                    }
+                }
+            }
+            return hasFoundPath;
+        }
+
+        private bool GoalAchieved(Dictionary<string, int> goals, Dictionary<string, int> currentState)
+        {
+            foreach (var goal in goals)
+            {
+                if (!currentState.ContainsKey(goal.Key))
+                {
+                    return false;
+                }
+            }
+                return true;
+        }
+
+        private List<GOAP.Action> BuildUsableActionSubset(List<Action> usableActions, Action actionToRemove)
+        {
+            List<GOAP.Action> subset = new List<GOAP.Action>(usableActions);
+
+            int index = usableActions.IndexOf(actionToRemove);
+            subset.RemoveAt(index);
+            
+            return subset;
         }
     }
 }
